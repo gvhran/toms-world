@@ -28,7 +28,7 @@ class Notifications extends CI_Controller
 
             $query = $this->db->query("
                         SELECT *
-                        FROM notification WHERE user_id='" . $userID . "' AND seen_status='0' OR user_id='All'
+                        FROM notification WHERE user_id='" . $userID . "' AND seen_status='0'
                         ORDER BY notif_id DESC LIMIT 5
                         ");
 
@@ -39,8 +39,14 @@ class Notifications extends CI_Controller
                     $query = $this->db->get('users');
                     $res = $query->row();
                     $date_created = date('D M j, Y g:i a', strtotime($row->date_added));
-                    $output .= '
                     
+                    if ($userID == $row->added_by_userID) {
+                        $added_by = 'You are';
+                    } else {
+                        $added_by = $row->added_by;
+                    }
+
+                    $output .= '
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -48,7 +54,7 @@ class Notifications extends CI_Controller
                         <li class="notification-item">
                             <img class="box me-2" src="' . base_url('uploaded_file/profile/') . '' . $res->photo . '" alt="Pofile-Picture">
                             <div>
-                                <h4>' . $row->added_by . '</h4>
+                                <h4>' . $added_by . '</h4>
                                 <p>' . $row->notif_message . '</p>
                                 <p>' . $date_created . '</p>
                             </div>
@@ -63,7 +69,7 @@ class Notifications extends CI_Controller
 
             $status_query  = $this->db->query("
                         SELECT *
-                        FROM notification WHERE user_id='" . $userID . "' AND seen_status='0' OR user_id='All'
+                        FROM notification WHERE user_id='" . $userID . "' AND seen_status='0'
                         ");
             $count = $status_query->num_rows();
 

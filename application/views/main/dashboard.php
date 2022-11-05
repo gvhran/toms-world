@@ -1,3 +1,45 @@
+<style>
+    #inputGroupPrepend {
+        background: none;
+    }
+
+    #inputGroupPrepend i {
+        font-size: 20px;
+        color: #636e72;
+    }
+
+    #yourUsername,
+    #yourPassword {
+        border-left: none;
+    }
+
+    #yourUsername:focus,
+    #yourPassword:focus {
+        box-shadow: none;
+    }
+
+    #yourName,
+    #yourPassword,
+    #yourEmail,
+    #confirmPassword {
+        border-left: none;
+    }
+
+    #yourName:focus,
+    #yourEmail:focus,
+    #yourPassword:focus,
+    #confirmPassword:focus {
+        box-shadow: none;
+    }
+
+    #pic {
+        height: 130px;
+        width: 150px;
+        border-radius: 10px;
+        border: 1px solid #bdc3c7;
+    }
+</style>
+
 <main id="main" class="main">
     <div class="container-fluid">
         <div class="pagetitle">
@@ -52,11 +94,11 @@
                                         <!-- System A -->
 
                                         <?php foreach ($permissions as $row) : ?>
-                                            
+
                                             <?php if ($row->perm_id == "1") { ?>
                                                 <!-- Helpdesk Card -->
                                                 <div class="col-xxl-4 col-md-6">
-                                                    <a href="<?= base_url('../helpdesk_ticketing')?>" target="_blank" style="color: #444444;">
+                                                    <a href="<?= base_url('../helpdesk_ticketing') ?>" target="_blank" style="color: #444444;">
                                                         <div class="card info-card menu-card border">
 
                                                             <div class="card-body">
@@ -309,3 +351,47 @@
         </section>
     </div><!-- End Container-fluid -->
 </main>
+
+<!-- modalPermission -->
+<div class="modal fade" id="modalProfile" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5><i class="bi bi-person-plus-fill me-2"></i>Manage Profile</h5>
+                <hr class="mt-0">
+                <p class="text-center" style="color: #02306D;">You're using a temporary password. Kindly change immediately and update your account profile. Thank You!</p>
+
+                <form id="updateForm" method="POST" enctype="multipart/form-data">
+                    <div class="form-group mb-3">
+                        <div id="error-message"></div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="yourPassword" class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-shield-lock-fill"></i></span>
+                            <input type="password" name="password" class="form-control" id="yourPassword" required>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-shield-lock-fill"></i></span>
+                            <input type="password" name="password_confirmation" class="form-control" id="confirmPassword" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="profile_pic" class="form-label">Upload Profile Picture</label>
+                        <input type="file" name="inpFile" class="form-control" id="profile_pic" accept="image/*" required oninput="pic.src=window.URL.createObjectURL(this.files[0])">
+                    </div>
+                    <div class="text-center">
+                        <img id="pic" />
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="register_btn" class="btn btn-danger text-white"><i class="bi bi-save me-2"></i>Update Profile</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -45,6 +45,19 @@ h6 {
   border-radius: 100%;
 }
 
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bdc3c7;
+}
+
 /*--------------------------------------------------------------
 # Checkbox slider
 --------------------------------------------------------------*/

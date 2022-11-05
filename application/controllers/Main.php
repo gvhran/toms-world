@@ -26,6 +26,7 @@ class Main extends CI_Controller
         $this->load->view('partials/__header');
         $this->load->view('main/dashboard', $data);
         $this->load->view('partials/__footer');
+        $this->load->view('main/ajaxRequest/profile_request');
     }
 
     public function logout()
@@ -37,10 +38,11 @@ class Main extends CI_Controller
     public function accountManagement()
     {
         $permission = $this->MainModel->getPermission();
+        $data['getPermission'] = $this->db->order_by('perm_id', 'ASC')->get('permissions')->result();
         foreach ($permission as $row) {
             if ($row->perm_id == "2") {
                 $this->load->view('partials/__header');
-                $this->load->view('main/account_management');
+                $this->load->view('main/account_management', $data);
                 $this->load->view('partials/__footer');
                 $this->load->view('main/ajaxRequest/account_request');
             }
@@ -196,6 +198,57 @@ class Main extends CI_Controller
             $error = 'Error';
         $output = array(
             'success' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function createPermission()
+    {
+        $message = '';
+        $system = $this->input->post('system_name');
+        $this->db->where('perm_desc', $system);
+        $exist = $this->db->get('permissions');
+        if ($exist->num_rows() > 0) {
+            $message = 'Permission exist';
+        } else {
+            $this->db->insert('permissions', array('perm_desc' => $system));
+        }
+        $output = array(
+            'message' => $message,
+        );
+        echo json_encode($output);
+    }
+
+    public function updateProfile()
+    {
+        $message = '';
+        if (!empty($_FILES['inpFile']['name'])) {
+            $config['upload_path'] = 'uploaded_file/profile';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['file_name'] = $_SESSION['loggedIn']['generated_id'] . $_FILES['inpFile']['name'];
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if ($this->upload->do_upload('inpFile')) {
+                $uploadData = $this->upload->data();
+                $uploadFile = $uploadData['file_name'];
+            } else {
+                $uploadFile = '';
+            }
+        } else {
+            $uploadFile = '';
+        }
+        $update_profile = array(
+            'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+            'photo' => $uploadFile,
+            'temp_pass_status' => NULL,
+        );
+
+        if ($this->db->where('id', $_SESSION['loggedIn']['id'])->update('users', $update_profile))
+            $message = 'Success';
+        else
+            $message = '';
+        $output = array(
+            'message' => $message,
         );
         echo json_encode($output);
     }

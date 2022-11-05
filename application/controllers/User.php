@@ -55,6 +55,7 @@ class User extends CI_Controller
 					'status' => $session->is_active,
 					'access_level' => $session->is_active,
 					'photo' => $session->photo,
+					'temp_pass' => $session->temp_pass_status,
 				);
 				$this->session->set_userdata('loggedIn', $sess_array);
 				$success = '<div class="alert alert-success">Please wait redirecting...</div>';
@@ -85,7 +86,7 @@ class User extends CI_Controller
 		$message = '';
 
 		$tempPass = generateRandomString();
-			$exist = $this->UserModel->existing_account($this->input->post('email'));
+		$exist = $this->UserModel->existing_account($this->input->post('email'));
 		if ($exist > 0) {
 			$message = 'Account exist';
 		} else {
@@ -112,4 +113,6 @@ class User extends CI_Controller
 
 		echo json_encode($output);
 	}
+
+	
 }

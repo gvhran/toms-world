@@ -20,6 +20,18 @@
             },
         });
 
+        $('#table_permissionManage').DataTable({
+            language: {
+                search: '',
+                searchPlaceholder: "Search Here...",
+            },
+            "ordering": false,
+            "paginate": false,
+            "info": false,
+            "stateSave": true,
+            "bDestroy": true,
+        });
+
         $(document).on('click', '.add_permission', function() {
             var accountID = $(this).attr('id');
             $('#modalPermission').modal('show');
@@ -157,5 +169,36 @@
             }
         });
 
-    });//end of document ready
+        $(document).on('submit', '#addPermissionForm', function(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            $.ajax({
+                url: "<?= base_url() . 'main/createPermission' ?>",
+                method: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.message != '') {
+                        Swal.fire('Warning!', 'Permission already exist.', 'warning');
+                    } else {
+                        Swal.fire(
+                            'Thank you!',
+                            'Permission successfully added!',
+                            'success'
+                        );
+                        $('#addPermissionForm').trigger('reset');
+                        var table = $('#table_permissionManage').DataTable();
+                        table.draw();
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                }
+            });
+        });
+
+    }); //end of document ready
 </script>

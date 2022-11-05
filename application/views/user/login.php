@@ -5,7 +5,7 @@
                 <div class="login-content justify-content-center">
                     <div class="row">
                         <div class="col-md-6 p-5">
-                            <h1 style="color: #02306D;">Hello I'm Tom</h1>
+                            <h1 style="color: #02306D;">Hello I'm Tom!</h1>
                             <img src="assets/img/tom.png" style="width: 100%">
                         </div>
                         <div class="col-md-5">
@@ -26,7 +26,6 @@
                                                 Sign In your Account</h5>
                                         </div>
                                         <hr>
-
                                         <form id="login_form" method="POST">
                                             <div class="form-group mb-3">
                                                 <label for="yourUsername" class="form-label">Email</label>
@@ -43,14 +42,10 @@
                                                 </div>
                                             </div>
                                             <div class="text-end mt-2 mb-2">
-                                                <a href="">Forgot Password?</a>
+                                                <a href="#modalForgotPass" data-bs-toggle="modal">Forgot Password?</a>
                                             </div>
                                             <button class="btn btn-login w-100 btn-rounded" type="submit">LOGIN</button>
                                         </form>
-                                        <div class="text-center mt-3 text-muted">
-                                            Don't have an account? <a href="<?= base_url('user/register')?>">Create
-                                                Account</a>
-                                        </div>
                                         <hr>
                                         <h5 style="color:#e65c00; font-size: 19px;">Welcome to Toms World PH
                                             Centralized System.
@@ -68,3 +63,27 @@
         </section>
     </div>
 </main><!-- End #main -->
+
+
+<!-- modalPermission -->
+<div class="modal fade" id="modalForgotPass" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5><i class="bi bi-lock-fill me-2"></i>Forgot Password</h5>
+                <hr class="mt-0">
+                <div class="form-group">
+                    <label for="yourPassword" class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-envelope-check-fill"></i></span>
+                        <input type="email" name="email_add" class="form-control" id="yourPassword" placeholder="Enter your registered email">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
+                <button type="button" class="btn btn-danger text-white"><i class="bi bi-save-fill me-2"></i>Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

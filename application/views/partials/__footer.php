@@ -134,9 +134,18 @@
 
         setInterval(function() {
             load_unseen_notification();;
-        }, 1000);
+        }, 5000);
+
     });
 </script>
+
+<?php if ($_SESSION['loggedIn']['temp_pass'] != NULL) : ?>
+    <script>
+        $(document).ready(function() { 
+            $('#modalProfile').modal('show');
+        });
+    </script>
+<?php endif; ?>
 
 </body>
 

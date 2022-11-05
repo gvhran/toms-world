@@ -38,6 +38,7 @@
                 </div>
                 <div class="card-body">
                     <button class="btn btn-success btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#modalNewAccount"><i class="bi bi-person-plus-fill me-2"></i>Add New Account</button>
+                    <button class="btn btn-danger btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#modalManagePermission"><i class="bi bi-lock-fill me-2"></i>Manage Permission</button>
                     <div class="table-responsive mt-3">
                         <table class="table table-hover table-striped" id="table_account" width="100%">
                             <thead>
@@ -68,7 +69,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h5><i class="bi bi-person-plus-fill me-2"></i>Manage Permissions</h5>
+                <h5><i class="bi bi-person-plus-fill me-2"></i>Add Permissions</h5>
                 <hr class="mt-0">
                 <div class="form-floating">
                     <div class="permission-list mt-2">
@@ -128,6 +129,57 @@
                 <button type="submit" class="btn btn-danger text-white"><i class="bi bi-save me-2"></i>Save Account</button>
             </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- modalManagePermission ADD -->
+<div class="modal fade" id="modalManagePermission" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5><i class="bi bi-lock-fill me-2"></i>Manage Permissions</h5>
+                <hr class="mt-0">
+                <form id="addPermissionForm" method="POST">
+                    <div class="row g-3">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="system_name" placeholder="Please input system name" aria-label="Permission" required autocomplete="off">
+                        </div>
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-success"><i class="bi bi-plus-square-fill me-2"></i>Add New Permission</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="form-floating">
+                    <div class="permission-list mt-2">
+                        <table class="table" width="100%" id="table_permissionManage">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Permission (System Name)</th>
+                                    <th width="25%" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($getPermission as $row): ?>
+                                    <tr>
+                                        <td><?= $row->perm_id; ?></td>
+                                        <td><?= $row->perm_desc; ?></td>
+                                        <td width="25%" class="text-center">
+                                            <button class="btn btn-outline-danger btn-sm" title="Remove Permission" id="<?= $row->perm_id; ?>">
+                                                <i class="bi bi-folder-minus me-2"></i>Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
+            </div>
         </div>
     </div>
 </div>
