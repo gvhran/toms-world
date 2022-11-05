@@ -23,6 +23,10 @@ class Main extends CI_Controller
     public function index()
     {
         $data['permissions'] = $this->MainModel->getPermission();
+        $data['getSystem'] = $this->MainModel->getSystem();
+        $data['pending'] = $this->MainModel->getPending();
+        $data['ongoing'] = $this->MainModel->getOngoing();
+        $data['finish'] = $this->MainModel->getFinish();
         $this->load->view('partials/__header');
         $this->load->view('main/dashboard', $data);
         $this->load->view('partials/__footer');

@@ -69,14 +69,59 @@
                         <div class="col-xxl-12 col-md-6">
                             <div class="card info-card">
                                 <div class="card-header">
-                                    USER RESTRICTION
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>USER RESTRICTION
                                 </div>
                                 <div class="card-body">
                                     <div class="fw-bold mt-3">You are allowed to access:</div>
-                                    <span>HRIS / HELPDESK / DCM</span>
+
+                                    <?php foreach ($getSystem as $row) : ?>
+                                        <span class="badge bg-success"><?= $row->perm_desc ?></span>
+                                    <?php endforeach; ?>
                                     <hr class="mt-2 mb-2">
-                                    <div class="fw-bold">You are permitted to access:</div>
-                                    <span>SYSTEM 1 / SYSTEM 2 / SYSTEM 3</span>
+
+                                    <div class="fw-bold">Hepldesk support dashboard:</div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card card-primary guest">
+                                                <div class="card-body p-2">
+                                                    <div class="card-avatar-primary me-3">
+                                                        <i class="fas fa-address-book mx-auto text-danger"></i>
+                                                    </div>
+                                                    <div class="card-text">
+                                                        <h5>PENDING REQUEST</h5>
+                                                        <h4><?= $pending; ?></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card-primary guest">
+                                                <div class="card-body p-2">
+                                                    <div class="card-avatar-primary me-3">
+                                                        <i class="fas fa-hourglass-start mx-auto text-warning"></i>
+                                                    </div>
+                                                    <div class="card-text">
+                                                        <h5>ONGOING REQUEST</h5>
+                                                        <h4><?= $ongoing; ?></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card-primary guest">
+                                                <div class="card-body p-2">
+                                                    <div class="card-avatar-primary me-3">
+                                                        <i class="fas fa-calendar-alt mx-auto text-success"></i>
+                                                    </div>
+                                                    <div class="card-text">
+                                                        <h5>ACCOMPLISHED REQUEST</h5>
+                                                        <h4><?= $finish; ?></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -86,7 +131,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    SOFTWARE & SYSTEM
+                                    <i class="bi bi-pc-display-horizontal me-2"></i>SOFTWARE & SYSTEM
                                 </div>
                                 <div class="card-body">
 
@@ -121,7 +166,7 @@
 
                                             <?php if ($row->perm_id == "2") { ?>
                                                 <div class="col-xxl-4 col-md-6">
-                                                    <a href="<?= base_url('main/accountManagement') ?>" style="color: #444444;">
+                                                    <a href="<?= base_url('main/accountManagement') ?>" target="_blank" style="color: #444444;">
                                                         <div class="card info-card menu-card border">
 
                                                             <div class="card-body">
@@ -254,7 +299,7 @@
 
                                         <!-- System A -->
                                         <div class="col-xxl-4 col-md-6">
-                                            <a href="#" style="color: #444444;">
+                                            <a href="https://tomsworld.com/" target="_blank" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
 
                                                     <div class="card-body">
@@ -308,7 +353,7 @@
                     <!-- MEMO BOARD -->
                     <div class="card">
                         <div class="card-header">
-                            MEMO BOARD
+                            <i class="bi bi-files me-2"></i>MEMO BOARD
                         </div>
                         <div class="card-body pb-0">
 
@@ -335,7 +380,7 @@
                     <!-- CALENDAR -->
                     <div class="card">
                         <div class="card-header">
-                            CALENDAR
+                            <i class="bi bi-calendar-week-fill me-2"></i>CALENDAR
                         </div>
                         <div class="card-body">
 
