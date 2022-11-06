@@ -28,17 +28,17 @@
                                         <hr>
                                         <form id="login_form" method="POST">
                                             <div class="form-group mb-3">
-                                                <label for="yourUsername" class="form-label">Email</label>
+                                                <label for="yourUsername" class="form-label">Email Address</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-fill"></i></span>
-                                                    <input type="email" name="email" class="form-control" id="yourUsername">
+                                                    <input type="email" name="email" class="form-control" id="yourUsername" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="yourPassword" class="form-label">Password</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-shield-lock-fill"></i></span>
-                                                    <input type="password" name="password" class="form-control" id="yourPassword">
+                                                    <input type="password" name="password" class="form-control" id="yourPassword" required>
                                                 </div>
                                             </div>
                                             <div class="text-end mt-2 mb-2">
