@@ -1,5 +1,5 @@
 <script>
-    $(document).on('submit', '#register_form', function(event) {
+    $(document).on('submit', '#updateForm', function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
@@ -56,4 +56,5 @@
             $("#error-message").removeClass("alert alert-success");
         }
     });
+
 </script>

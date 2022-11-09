@@ -13,7 +13,6 @@ class Main extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('UserModel');
         $this->load->model('MainModel');
-        // $this->load->model('MainModel');
         $this->load->database();
         if (!isset($_SESSION['loggedIn'])) {
             redirect('user');
@@ -25,8 +24,6 @@ class Main extends CI_Controller
         $data['permissions'] = $this->MainModel->getPermission();
         $data['getSystem'] = $this->MainModel->getSystem();
         $data['pending'] = $this->MainModel->getPending();
-        $data['ongoing'] = $this->MainModel->getOngoing();
-        $data['finish'] = $this->MainModel->getFinish();
         $this->load->view('partials/__header');
         $this->load->view('main/dashboard', $data);
         $this->load->view('partials/__footer');
@@ -42,7 +39,11 @@ class Main extends CI_Controller
     public function accountManagement()
     {
         $permission = $this->MainModel->getPermission();
-        $data['getPermission'] = $this->db->order_by('perm_id', 'ASC')->get('permissions')->result();
+        $data['department'] = $this->MainModel->getDepartment();
+        $data['position'] = $this->MainModel->getPosition();
+        $data['getPermission'] = $this->MainModel->getPermissionList();
+        $data['totalReset'] = $this->db->where('user_status', 'For Reset')->get('users')->num_rows();
+        $data['getForReset'] = $this->MainModel->getForReset();
         foreach ($permission as $row) {
             if ($row->perm_id == "2") {
                 $this->load->view('partials/__header');
@@ -54,7 +55,6 @@ class Main extends CI_Controller
     }
 
     //BACK END REQUEST
-
     public function get_accountData()
     {
 
@@ -67,12 +67,12 @@ class Main extends CI_Controller
 
             $row[] = '<button class="btn btn-secondary btn-sm text-white add_permission" id="' . $account->id . '" title="Add Permissions"><i class="bi bi-unlock-fill me-2"></i>Add Permissions</button>';
             if ($account->photo != '')
-                $row[] = '<img class="box" src="' . base_url('uploaded_file/profile/') . '' . $account->photo . '" alt="Pofile-Picture">';
+                $row[] = '<img class="box" src="' . base_url('uploaded_file/profile/') . '' . $account->profile_pic . '" alt="Pofile-Picture">';
             else
                 $row[] = '<img class="box" src="' . base_url('assets/img/avatar.jpg') . '" alt="Pofile-Picture">';
 
-            $row[] = $account->email;
-            $row[] = $account->name;
+            $row[] = $account->generated_id;
+            $row[] = $account->l_name .', '.$account->f_name.' '.$account->m_name;
             $row[] = $account->department;
             $row[] = $account->position;
             $row[] = date('F j, Y', strtotime($account->created_at));
@@ -117,7 +117,12 @@ class Main extends CI_Controller
 
             $res = $query->row();
 
-            $row[] = $account->perm_desc;
+            if (isset($res->access) && $res->access == 'Yes')
+                $row[] = '<span>'.$account->perm_desc.'</span><br>
+                          <small><span class="view_sub" id="deleteRow" data-id="'.$account->perm_id.'" data-sub="'.$user.'">View Sub Permissions</span></small>';
+            else
+                $row[] = $account->perm_desc;
+
             if (isset($res->access) && $res->access == 'Yes') {
                 $row[] = '<label class="switch">
 							  <input type="checkbox" class="action_session" id="' . $account->perm_id . '" data-user="' . $user . '" checked>
@@ -128,6 +133,47 @@ class Main extends CI_Controller
 						  <input type="checkbox" class="action_session" id="' . $account->perm_id . '" data-user="' . $user . '">
 						  <span class="slider round"></span>
 					  	 </label><br>OFF';
+            }
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    public function get_SubPermission()
+    {
+        $perm_id = $this->uri->segment(3);
+        $userID = $this->uri->segment(4);
+        $this->db->where('perm_id', $perm_id);
+        $list = $this->db->get('sub_permissions')->result();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $account) {
+            $no++;
+            $row = array();
+
+            $query = $this->db->query("
+                SELECT * FROM sub_role_permission WHERE sub_id = '" . $account->sub_id . "'
+                AND user_id = '" . $userID . "'
+            ");
+
+            $res = $query->row();
+
+            $row[] = $account->sub_details;
+            if (isset($res->access) && $res->access == 'Yes') {
+                $row[] = '<label class="switch">
+							<input type="checkbox" class="action_sub" data-user="' . $userID . '" data-sub="' .$account->sub_id. '" checked>
+							<span class="slider round"></span>
+					  	  </label><br>ON';
+            } else {
+                $row[] = '<label class="switch">
+                            <input type="checkbox" class="action_sub" data-user="' . $userID . '" data-sub="' .$account->sub_id. '">
+                            <span class="slider round"></span>
+					  	  </label><br>OFF';
             }
 
             $data[] = $row;
@@ -169,6 +215,48 @@ class Main extends CI_Controller
             'perm_id' => $permID,
         );
         if ($this->db->delete('roles_permissions', $removePermission))
+            $success = 'Success';
+        else
+            $success = 'Error';
+        $output = array(
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    public function add_Subpermission()
+    {
+        $success = '';
+        $userID = $this->input->post('userID');
+        $permID = $this->input->post('perm_id');
+        $subID = $this->input->post('subID');
+        $grantPermission = array(
+            'user_id' => $userID,
+            'sub_id' => $subID,
+            // 'perm_id' => $permID,
+            'access' => 'Yes',
+        );
+        if ($this->db->insert('sub_role_permission', $grantPermission))
+            $success = 'Success';
+        else
+            $success = 'Error';
+        $output = array(
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    public function remove_Subpermission()
+    {
+        $success = '';
+        $userID = $this->input->post('userID');
+        $permID = $this->input->post('perm_id');
+        $subID = $this->input->post('subID');
+        $removePermission = array(
+            'user_id' => $userID,
+            'sub_id' => $subID,
+        );
+        if ($this->db->delete('sub_role_permission', $removePermission))
             $success = 'Success';
         else
             $success = 'Error';
@@ -241,18 +329,59 @@ class Main extends CI_Controller
         } else {
             $uploadFile = '';
         }
-        $update_profile = array(
+        $updateAccount = array(
             'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-            'photo' => $uploadFile,
             'temp_pass_status' => NULL,
         );
-
-        if ($this->db->where('id', $_SESSION['loggedIn']['id'])->update('users', $update_profile))
+        if ($this->db->where('generated_id', $_SESSION['loggedIn']['generated_id'])->update('users', $updateAccount)) {
+            $this->db->where('user_id', $_SESSION['loggedIn']['generated_id'])->update('employee', array('profile_pic' => $uploadFile));
             $message = 'Success';
-        else
+        }  else {
             $message = '';
+        }
         $output = array(
             'message' => $message,
+        );
+        echo json_encode($output);
+    }
+
+    public function saveSubPermission()
+    {
+        $success = '';
+        $insert_data_perm = $this->input->post('data_table');
+        for ($i = 0; $i < count($insert_data_perm); $i++) {
+            $data[] = array(
+                'perm_id' => $this->input->post('permID'),
+                'sub_details' => $insert_data_perm[$i]['sub_details'],
+            );
+            $this->db->insert('sub_permissions', $data[$i]);
+            $success = 'Success';
+        }
+        $output = array(
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    public function getSubPermission()
+    {
+        $perm_id = $this->uri->segment(3);
+        $this->db->where('perm_id', $perm_id);
+        $permission = $this->db->get('sub_permissions')->result();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($permission as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = $list->sub_id;
+            $row[] = $list->sub_details;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "data" => $data
         );
         echo json_encode($output);
     }

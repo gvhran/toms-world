@@ -1,6 +1,24 @@
 <script>
     $(document).ready(function() {
-        $('#table_account').DataTable({
+        function getSub(perm_id, userID) {
+            $('#table_Subpermission').DataTable({
+                "ordering": false,
+                "paginate": false,
+                "searching": false,
+                "info": false,
+                "serverSide": true,
+                "processing": true,
+                "pageLength": 25,
+                "stateSave": true,
+                "bDestroy": true,
+                "ajax": {
+                    "url": "<?= base_url('main/get_SubPermission/') ?>" + perm_id + '/' + userID,
+                    "type": "POST"
+                },
+            });
+        }
+
+        var tableAccount = $('#table_account').DataTable({
             language: {
                 search: '',
                 searchPlaceholder: "Search Here...",
@@ -16,15 +34,40 @@
             // "responsive": true,
             "ajax": {
                 "url": "<?= base_url('main/get_accountData') ?>",
-                "type": "POST"
+                "type": "POST",
+                "data": function(data) {
+                    data.department_filter = $('#department_filter').val();
+                    data.position_filter = $('#position_filter').val();
+                }
             },
+        });
+        $('#department_filter').change(function() {
+            tableAccount.draw();
+        });
+        $('#position_filter').change(function() {
+            tableAccount.draw();
         });
 
         $('#table_permissionManage').DataTable({
-            language: {
-                search: '',
-                searchPlaceholder: "Search Here...",
-            },
+            "searching": false,
+            "ordering": false,
+            "paginate": false,
+            "info": false,
+            "stateSave": true,
+            "bDestroy": true,
+        });
+
+        $('#table_department').DataTable({
+            "searching": false,
+            "ordering": false,
+            "paginate": false,
+            "info": false,
+            "stateSave": true,
+            "bDestroy": true,
+        });
+
+        $('#table_position').DataTable({
+            "searching": false,
             "ordering": false,
             "paginate": false,
             "info": false,
@@ -66,9 +109,12 @@
                     dataType: "json",
                     success: function(data) {
                         if (data.success == 'Success') {
-                            Swal.fire('Thank you!', 'Permission granted.', 'success');
-                            var table = $('#table_account').DataTable();
+                            // Swal.fire('Thank you!', 'Permission granted.', 'success');
+                            $('#modalSubPermission').modal('show');
+                            getSub(perm_id, userID);
+                            var table = $('#table_permission').DataTable();
                             table.draw();
+
                         } else {
                             Swal.fire("Error in updating", "Clicked button to close!", "error");
                         }
@@ -86,7 +132,54 @@
                     success: function(data) {
                         if (data.success == 'Success') {
                             Swal.fire('Thank you!', 'Removed permission successfully.', 'success');
-                            var table = $('#table_account').DataTable();
+                            var table = $('#table_permission').DataTable();
+                            table.draw();
+                        } else {
+                            Swal.fire("Error in updating", "Clicked button to close!", "error");
+                        }
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.action_sub', function() {
+            var perm_id = $(this).attr('id');
+            var userID = $(this).data('user');
+            var subID = $(this).data('sub');
+            if ($(this).is(":checked")) {
+                $.ajax({
+                    url: "<?= base_url() . 'main/add_Subpermission' ?>",
+                    type: "POST",
+                    data: {
+                        userID: userID,
+                        perm_id: perm_id,
+                        subID: subID
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.success == 'Success') {
+                            Swal.fire('Thank you!', 'Permission granted.', 'success');
+                            var table = $('#table_Subpermission').DataTable();
+                            table.draw();
+                        } else {
+                            Swal.fire("Error in updating", "Clicked button to close!", "error");
+                        }
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "<?= base_url() . 'main/remove_Subpermission' ?>",
+                    type: "POST",
+                    data: {
+                        userID: userID,
+                        perm_id: perm_id,
+                        subID: subID
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.success == 'Success') {
+                            Swal.fire('Thank you!', 'Removed permission successfully.', 'success');
+                            var table = $('#table_Subpermission').DataTable();
                             table.draw();
                         } else {
                             Swal.fire("Error in updating", "Clicked button to close!", "error");
@@ -198,6 +291,177 @@
                     Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
                 }
             });
+        });
+
+        $(document).on('click', '.add_sub_permission', function() {
+            var permID = $(this).attr('id');
+            $('#perm_id').val(permID);
+            $('#modalAddSubPermission').modal('show');
+            $('#table_sub').DataTable({
+                "ordering": false,
+                "paginate": false,
+                "searching": false,
+                "info": false,
+                "serverSide": true,
+                "processing": true,
+                "pageLength": 25,
+                "stateSave": true,
+                "bDestroy": true,
+                "ajax": {
+                    "url": "<?= base_url('main/getSubPermission/') ?>" + permID,
+                    "type": "POST"
+                },
+            });
+        });
+
+        var rowIdx = 0;
+        $(document).on('click', '.add_row', function() {
+            console.log('Hello');
+            $('#table_body').append(
+                `<tr class="data_lot" id="R${++rowIdx}">
+                <td class="row-index">
+                    <span>${rowIdx}</span>
+                </td>
+                <td contenteditable="true">
+                
+                </td>
+                <td>
+                    <span id="deleteRow">Delete</span>
+                </td>
+            </tr>`
+            );
+        });
+        // jQuery button click event to remove a row.
+        $('#table_body').on('click', '#deleteRow', function() {
+            var child = $(this).closest('tr').nextAll();
+            child.each(function() {
+                var id = $(this).attr('id');
+                var idx = $(this).children('.row-index').children('span');
+                var dig = parseInt(id.substring(1));
+                idx.html(`${dig - 1}`);
+                $(this).attr('id', `R${dig - 1}`);
+            });
+            $(this).closest('tr').remove();
+            rowIdx--;
+        });
+
+        $(document).on('click', '.save_permission', function() {
+            var permID = $('#perm_id').val();
+            var table_data = [];
+
+            $('#table_body .data_lot').each(function(row, tr) {
+                var sub = {
+                    'sub_details': $(tr).find('td:eq(1)').text(),
+                };
+                table_data.push(sub);
+            });
+            if (table_data != '') {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('main/saveSubPermission'); ?>",
+                            method: "POST",
+                            data: {
+                                'data_table': table_data,
+                                permID: permID
+                            },
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.success == 'Success') {
+                                    Swal.fire('Thank you!', 'Successfully added.', 'success');
+                                    $('#modalSubPermission').modal('hide');
+                                }
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                            }
+                        });
+                    }
+                })
+            } else {
+                Swal.fire("Error!", "Table is empty", "error");
+            }
+        });
+
+        $(document).on('click', '.view_sub', function() {
+            var perm_id = $(this).data('id');
+            var userID = $(this).data('sub');
+            $('#modalSubPermission').modal('show');
+            getSub(perm_id, userID);
+        });
+
+        $(document).on('submit', '#addDepartment', function(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            $.ajax({
+                url: "<?= base_url() . 'ManageAccount/addDepartment' ?>",
+                method: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.message != '') {
+                        Swal.fire('Warning!', 'Department already exist.', 'warning');
+                    } else {
+                        Swal.fire(
+                            'Thank you!',
+                            'Successfully added!',
+                            'success'
+                        );
+                        $('#addDepartment').trigger('reset');
+                        var table = $('#table_department').DataTable();
+                        table.draw();
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                }
+            });
+        });
+
+        $(document).on('submit', '#addPosition', function(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            $.ajax({
+                url: "<?= base_url() . 'ManageAccount/addPosition' ?>",
+                method: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.message != '') {
+                        Swal.fire('Warning!', 'Position already exist.', 'warning');
+                    } else {
+                        Swal.fire(
+                            'Thank you!',
+                            'Successfully added!',
+                            'success'
+                        );
+                        $('#addPosition').trigger('reset');
+                        var table = $('#table_position').DataTable();
+                        table.draw();
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                }
+            });
+        });
+
+        $(document).on('click', '.print_account', function() {
+            window.open("<?= base_url() . 'ManageAccount/printAccount' ?>", 'targetWindow', 'resizable=yes,width=1000,height=1000');
         });
 
     }); //end of document ready

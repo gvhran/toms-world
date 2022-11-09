@@ -78,50 +78,6 @@
                                         <span class="badge bg-success"><?= $row->perm_desc ?></span>
                                     <?php endforeach; ?>
                                     <hr class="mt-2 mb-2">
-
-                                    <div class="fw-bold">Hepldesk support dashboard:</div>
-
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="card card-primary guest">
-                                                <div class="card-body p-2">
-                                                    <div class="card-avatar-primary me-3">
-                                                        <i class="fas fa-address-book mx-auto text-danger"></i>
-                                                    </div>
-                                                    <div class="card-text">
-                                                        <h5>PENDING REQUEST</h5>
-                                                        <h4><?= $pending; ?></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card-primary guest">
-                                                <div class="card-body p-2">
-                                                    <div class="card-avatar-primary me-3">
-                                                        <i class="fas fa-hourglass-start mx-auto text-warning"></i>
-                                                    </div>
-                                                    <div class="card-text">
-                                                        <h5>ONGOING REQUEST</h5>
-                                                        <h4><?= $ongoing; ?></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card-primary guest">
-                                                <div class="card-body p-2">
-                                                    <div class="card-avatar-primary me-3">
-                                                        <i class="fas fa-calendar-alt mx-auto text-success"></i>
-                                                    </div>
-                                                    <div class="card-text">
-                                                        <h5>ACCOMPLISHED REQUEST</h5>
-                                                        <h4><?= $finish; ?></h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -157,6 +113,11 @@
                                                                         </span>
 
                                                                     </div>
+                                                                    <?php if ($pending == '0') : ?>
+                                                                        <span class="badge bg-danger"></span>
+                                                                    <?php else : ?>
+                                                                        <span class="badge bg-danger"><?= $pending; ?></span>
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -427,7 +388,7 @@
 
                     <div class="form-group mb-3">
                         <label for="profile_pic" class="form-label">Upload Profile Picture</label>
-                        <input type="file" name="inpFile" class="form-control" id="profile_pic" accept="image/*" required oninput="pic.src=window.URL.createObjectURL(this.files[0])">
+                        <input type="file" name="inpFile" class="form-control" id="profile_pic" accept="image/*" oninput="pic.src=window.URL.createObjectURL(this.files[0])">
                     </div>
                     <div class="text-center">
                         <img id="pic" />

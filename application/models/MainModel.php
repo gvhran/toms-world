@@ -27,6 +27,12 @@ class MainModel extends CI_Model
         return $this->db->get('roles_permissions')->result();
     }
 
+    function getPermissionList()
+    {
+        $this->db->order_by('perm_id', 'ASC');
+        return $this->db->get('permissions')->result();
+    }
+
     function getSystem()
     {
         $query = $this->db->query("
@@ -46,19 +52,30 @@ class MainModel extends CI_Model
         return $query->num_rows();
     }
 
-    function getOngoing()
+    function getDepartment()
     {
-        $this->db->where('ticketing.concern_personID', $_SESSION['loggedIn']['id']);
-        $this->db->where('ticketing.concern_status', 'Ongoing');
-        $query = $this->db->get('helpdesk.ticketing');
-        return $query->num_rows();
+        $query = $this->db->get('department');
+        return $query->result();
+    }
+    function getPosition()
+    {
+        $query = $this->db->get('position');
+        return $query->result();
     }
 
-    function getFinish()
+    function exportAccount()
     {
-        $this->db->where('ticketing.concern_personID', $_SESSION['loggedIn']['id']);
-        $this->db->where('ticketing.concern_status', 'Done');
-        $query = $this->db->get('helpdesk.ticketing');
-        return $query->num_rows();
+        $this->db->from('users');
+        $this->db->join('employee', 'users.generated_id=employee.user_id', 'left');
+        return $this->db->get()->result_array();
     }
+
+    function getForReset()
+    {
+        $this->db->from('users');
+        $this->db->join('employee', 'users.generated_id=employee.user_id', 'left');
+        $this->db->where('users.user_status', 'For Reset');
+        return $this->db->get()->result();
+    }
+
 }

@@ -28,10 +28,10 @@
                                         <hr>
                                         <form id="login_form" method="POST">
                                             <div class="form-group mb-3">
-                                                <label for="yourUsername" class="form-label">Email Address</label>
+                                                <label for="yourUsername" class="form-label">Username</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-fill"></i></span>
-                                                    <input type="email" name="email" class="form-control" id="yourUsername" required>
+                                                    <input type="text" name="email" class="form-control" id="yourUsername" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -73,16 +73,16 @@
                 <h5><i class="bi bi-lock-fill me-2"></i>Forgot Password</h5>
                 <hr class="mt-0">
                 <div class="form-group">
-                    <label for="yourPassword" class="form-label">Email Address</label>
+                    <label for="yourPassword" class="form-label">Username</label>
                     <div class="input-group">
-                        <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-envelope-check-fill"></i></span>
-                        <input type="email" name="email_add" class="form-control" id="yourPassword" placeholder="Enter your registered email">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-rolodex"></i></span>
+                        <input type="text" name="username" class="form-control" id="resetUsername" placeholder="Enter your username">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
-                <button type="button" class="btn btn-danger text-white"><i class="bi bi-save-fill me-2"></i>Submit</button>
+                <button type="button" class="btn btn-danger text-white reset_password"><i class="bi bi-save-fill me-2"></i>Submit</button>
             </div>
         </div>
     </div>

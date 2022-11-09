@@ -9,8 +9,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class UserModel extends CI_Model
 {
     var $users = 'users';
-    var $users_order = array('email', 'name', 'department', 'access_level', 'created_at', 'is_active', 'photo');
-    var $users_search = array('email', 'name', 'department', 'access_level', 'created_at', 'is_active'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
+    var $users_order = array('generated_id', 'department', 'created_at', 'is_active', 'profile_pic');
+    var $users_search = array('generated_id', 'department', 'is_active', 'l_name', 'f_name', 'position'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
     var $order = array('id' => 'desc'); // default order
 
     /**
@@ -25,16 +25,41 @@ class UserModel extends CI_Model
         $this->load->database();
     }
 
-    function existing_account($email)
+    function existing_account($generatedID)
     {
-        $query = $this->db->where('email', $email)->get('users');
+        $query = $this->db->where('generated_id', $generatedID)->get('users');
         return $query->num_rows();
     }
 
-    public function user_check($username, $password)
+    function userCheck($username)
     {
-        $this->db->where('email', $username);
+        $query = $this->db->where('generated_id', $username)->get('users');
+        return $query->num_rows();
+    }
+
+    function getEmployee($username)
+    {
+        $query = $this->db->where('user_id', $username)->get('employee');
+        return $query->row();
+    }
+
+    public function user_check_admin($username, $password)
+    {
+        $this->db->where('generated_id', $username);
         $res = $this->db->get('users')->row();
+
+        // if(!$res){
+        //     return false;
+        // }else{
+        //     $hash = $res->temp_pass_status;
+        //     if($password == $hash)
+        //     {
+        //         return $res;
+        //     }else{
+        //         return false;
+        //     }
+        // }
+
         if (!$res) {
             return false;
         } else {
@@ -52,7 +77,6 @@ class UserModel extends CI_Model
 
         return password_verify($password, $hash);
     }
-
 
     public function get_accountData()
     {
@@ -78,7 +102,14 @@ class UserModel extends CI_Model
 
     private function _get_accountData_query()
     {
+        if ($this->input->post('department_filter')) {
+            $this->db->where('employee.department', $this->input->post('department_filter'));
+        } else if ($this->input->post('position_filter')) {
+            $this->db->where('employee.position', $this->input->post('position_filter'));
+        }
         $this->db->from($this->users);
+        $this->db->join('employee', 'users.generated_id=employee.user_id', 'left');
+
         $i = 0;
         foreach ($this->users_search as $item) // loop column 
         {

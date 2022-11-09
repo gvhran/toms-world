@@ -89,12 +89,14 @@
     }
 
     #yourUsername,
-    #yourPassword {
+    #yourPassword,
+    #resetUsername {
       border-left: none;
     }
 
     #yourUsername:focus,
-    #yourPassword:focus {
+    #yourPassword:focus,
+    #resetUsername:focus {
       box-shadow: none;
     }
 
