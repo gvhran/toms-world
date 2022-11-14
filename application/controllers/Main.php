@@ -41,9 +41,11 @@ class Main extends CI_Controller
         $permission = $this->MainModel->getPermission();
         $data['department'] = $this->MainModel->getDepartment();
         $data['position'] = $this->MainModel->getPosition();
+        $data['branches'] = $this->MainModel->getBranch();
         $data['getPermission'] = $this->MainModel->getPermissionList();
         $data['totalReset'] = $this->db->where('user_status', 'For Reset')->get('users')->num_rows();
-        $data['getForReset'] = $this->MainModel->getForReset();
+        // $data['getForReset'] = $this->MainModel->getForReset();
+        // $data['tempPass'] = $this->MainModel->generateRandomString();
         foreach ($permission as $row) {
             if ($row->perm_id == "2") {
                 $this->load->view('partials/__header');
@@ -66,7 +68,7 @@ class Main extends CI_Controller
             $row = array();
 
             $row[] = '<button class="btn btn-secondary btn-sm text-white add_permission" id="' . $account->id . '" title="Add Permissions"><i class="bi bi-unlock-fill me-2"></i>Add Permissions</button>';
-            if ($account->photo != '')
+            if ($account->profile_pic != '')
                 $row[] = '<img class="box" src="' . base_url('uploaded_file/profile/') . '' . $account->profile_pic . '" alt="Pofile-Picture">';
             else
                 $row[] = '<img class="box" src="' . base_url('assets/img/avatar.jpg') . '" alt="Pofile-Picture">';
@@ -382,6 +384,90 @@ class Main extends CI_Controller
         $output = array(
             "draw" => $_POST['draw'],
             "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    public function getDepartment()
+    {
+        $department = $this->MainModel->getDepartment();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($department as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = $list->dept_code;
+            $row[] = $list->department;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    public function getPosition()
+    {
+        $position = $this->MainModel->getPosition();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($position as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = $list->position_code;
+            $row[] = $list->position_details;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    public function getBranch()
+    {
+        $branch = $this->MainModel->getBranch();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($branch as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = $list->branch;
+            $row[] = $list->branch_address;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    public function addBranches()
+    {
+        $message = '';
+        $query = $this->db->query("
+                 SELECT * FROM branches WHERE branch='" . $this->input->post('branch') . "'
+        ");
+        if ($query->num_rows() > 0) {
+            $message = 'Branch already exist';
+        } else {
+            $insertBranch = array(
+                'branch' => $this->input->post('branch'),
+                'branch_address' => $this->input->post('branch_address')
+            );
+            $this->db->insert('branches', $insertBranch);
+        }
+        $output = array(
+            'message' => $message,
         );
         echo json_encode($output);
     }

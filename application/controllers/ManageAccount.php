@@ -103,4 +103,64 @@ class ManageAccount extends CI_Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+
+    public function resetPassword()
+    {
+        $message = '';
+        $tempPass = $this->MainModel->generateRandomString();
+        $resetAccount = array(
+            'password' => password_hash($tempPass, PASSWORD_DEFAULT),
+            'temp_pass_status' => $tempPass,
+            'user_status' => NULL,
+        );
+        if ($this->db->where('generated_id', $this->input->post('userID'))->update('users', $resetAccount)) {
+            $message = 'Success';
+        } else {
+            $message = '';
+        }
+        $output = array(
+            'success' => $message,
+            'tempPass' => $tempPass,
+        );
+        echo json_encode($output);
+    }
+
+    public function getResetData()
+    {
+        $output = '';
+        if (isset($_POST['view'])) {
+            $query = $this->db->query("
+                    SELECT * FROM users
+                    INNER JOIN employee ON users.generated_id=employee.user_id
+                    WHERE users.user_status='For Reset'");
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row) {
+                    if ($row->profile_pic != '') {
+                        $path = $row->profile_pic;
+                    } else {
+                        $path = 'avatar.jpg';
+                    }
+
+                    $output .= '
+                        <div class="d-flex align-items-center data-reset mb-3">
+                            <img src="' . base_url('uploaded_file/profile/') . '' . $path . '" class="rounded-circle" alt="Pofile-Picture"><br>
+                            <span class="ps-2">
+                                '.$row->l_name.', '.$row->f_name.'<br>
+                                <small>'.$row->department.'</small><br>
+                                <button class="btn btn-success btn-sm resetPassword" id="'.$row->generated_id.'"><i class="bi bi-check2-square me-2"></i>Reset</button>
+                            </span>
+                        </div>
+                    ';
+                }
+            } else {
+                $output .= '<span class="fw-bold text-danger">
+                                No Data Found!
+                            </span>';
+            }
+            $data = array(
+                'resetAccount' => $output,
+            );
+            echo json_encode($data);
+        }
+    }
 }

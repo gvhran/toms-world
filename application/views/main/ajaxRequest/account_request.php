@@ -58,21 +58,48 @@
         });
 
         $('#table_department').DataTable({
+            "serverSide": true,
+            "processing": true,
             "searching": false,
             "ordering": false,
             "paginate": false,
             "info": false,
             "stateSave": true,
             "bDestroy": true,
+            "ajax": {
+                "url": "<?= base_url('main/getDepartment') ?>",
+                "type": "POST"
+            },
         });
 
         $('#table_position').DataTable({
+            "serverSide": true,
+            "processing": true,
             "searching": false,
             "ordering": false,
             "paginate": false,
             "info": false,
             "stateSave": true,
             "bDestroy": true,
+            "ajax": {
+                "url": "<?= base_url('main/getPosition') ?>",
+                "type": "POST"
+            },
+        });
+
+        $('#table_branch').DataTable({
+            "serverSide": true,
+            "processing": true,
+            "searching": false,
+            "ordering": false,
+            "paginate": false,
+            "info": false,
+            "stateSave": true,
+            "bDestroy": true,
+            "ajax": {
+                "url": "<?= base_url('main/getBranch') ?>",
+                "type": "POST"
+            },
         });
 
         $(document).on('click', '.add_permission', function() {
@@ -464,5 +491,85 @@
             window.open("<?= base_url() . 'ManageAccount/printAccount' ?>", 'targetWindow', 'resizable=yes,width=1000,height=1000');
         });
 
+        $(document).on('click', '.resetPassword', function() {
+            var userID = $(this).attr('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, proceed'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('ManageAccount/resetPassword'); ?>",
+                        method: "POST",
+                        data: {
+                            userID: userID
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.success == 'Success') {
+                                Swal.fire('Thank you!', 'Please copy the temporary password: ' + data.tempPass, 'success');
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                        }
+                    });
+                }
+            })
+        });
+
+        function load_resetAccount(view = '') {
+            $.ajax({
+                url: "<?= base_url() . 'ManageAccount/getResetData' ?>",
+                method: "POST",
+                data: {
+                    view: view
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#resetBoard').html(data.resetAccount);
+                }
+            });
+        }
+        load_resetAccount();
+        setInterval(function() {
+            load_resetAccount();;
+        }, 1000);
+
+        $(document).on('submit', '#addBranches', function(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            $.ajax({
+                url: "<?= base_url() . 'Main/addBranches' ?>",
+                method: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.message != '') {
+                        Swal.fire('Warning!', 'Branch already exist.', 'warning');
+                    } else {
+                        Swal.fire(
+                            'Thank you!',
+                            'Successfully added!',
+                            'success'
+                        );
+                        $('#addBranches').trigger('reset');
+                        var table = $('#table_branch').DataTable();
+                        table.draw();
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                }
+            });
+        });
     }); //end of document ready
 </script>

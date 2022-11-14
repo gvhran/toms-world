@@ -68,8 +68,9 @@
             <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalManagePermission"><i class="bi bi-lock-fill me-2"></i>Manage Permission</button>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDepartment"><i class="bi bi-hdd-rack-fill me-2"></i>Manage Department</button>
             <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPosition"><i class="bi bi-person-lines-fill me-2"></i>Manage Position</button>
+            <button class="btn btn-warning btn-sm text-white" data-bs-toggle="modal" data-bs-target="#modalBranch"><i class="bi bi-shop me-2"></i>Manage Branch</button>
             <button type="button" class="btn btn-info text-white position-relative btn-sm" data-bs-toggle="modal" data-bs-target="#modalReset">
-                <i class="bi bi-person-lines-fill me-2"></i>Reset Account
+                <i class="bi bi-person-rolodex me-2"></i>Reset Account
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     <?= $totalReset; ?>
                 </span>
@@ -259,6 +260,17 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="position">Branches</label>
+                                <select class="form-select" id="branches" name="branches" required>
+                                    <option value="" selected>Select Branch</option>
+                                    <?php foreach ($branches as $row) : ?>
+                                        <option value="<?= $row->branch ?>"><?= $row->branch ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
                     </div>
             </div>
             <div class="modal-footer">
@@ -392,12 +404,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($department as $row) : ?>
-                            <tr>
-                                <td><?= $row->dept_code; ?></td>
-                                <td><?= $row->department; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+
                     </tbody>
                 </table>
             </div>
@@ -437,12 +444,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($position as $row) : ?>
-                            <tr>
-                                <td><?= $row->position_code; ?></td>
-                                <td><?= $row->position_details; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+
                     </tbody>
                 </table>
             </div>
@@ -460,22 +462,50 @@
             <div class="modal-body">
                 <h5><i class="bi bi-person-lines-fill me-2"></i>Reset Password</h5>
                 <hr class="mt-0">
-                <?php foreach ($getForReset as $row) : ?>
-                    <div class="d-flex align-items-center data-reset mb-3">
-                        <?php if ($row->profile_pic != '') : ?>
-                            <img src="<?= base_url() ?>uploaded_file/profile/<?= $row->profile_pic; ?>" class="rounded-circle" alt="Pofile-Picture"><br>
-                        <?php else : ?>
-                            <img src="<?= base_url() ?>assets/img/avatar.jpg" alt="Profile" class="rounded-circle"><br>
-                        <?php endif ?>
+                <div id="resetBoard">
 
-                        <span class="ps-2">
-                            <?= $row->l_name;?>, <?= $row->f_name;?><br>
-                            <small><?= $row->department;?></small><br>
-                            <small class="text-danger"><i>Temporary Password: <input type="text" id="temp" value="<?= substr(md5(mt_rand()), 0, 6);?>" readonly></i></small><br>
-                            <button class="btn btn-success btn-sm resetPassword" id="<?= $row->generated_id;?>"><i class="bi bi-check2-square me-2"></i>Reset</button>
-                        </span>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Branch -->
+<div class="modal fade" id="modalBranch" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5><i class="bi bi-shop me-2"></i>Manage Branch / Store</h5>
+                <hr class="mt-0">
+                <form id="addBranches" method="POST">
+                    <div class="row g-3">
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control form-control-sm" name="branch" placeholder="Branch / Store" required autocomplete="off">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control form-control-sm" name="branch_address" placeholder="Please input address" required autocomplete="off">
+                        </div>
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-plus-square-fill me-2"></i>Add Branch</button>
+                        </div>
                     </div>
-                <?php endforeach; ?>
+                </form>
+                <hr>
+                <table class="table" id="table_branch" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
