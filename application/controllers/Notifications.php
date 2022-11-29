@@ -35,8 +35,8 @@ class Notifications extends CI_Controller
             if ($query->num_rows() > 0) {
                 foreach ($query->result() as $row) {
 
-                    $this->db->where('id', $row->added_by_userID);
-                    $query = $this->db->get('users');
+                    $this->db->where('emp_id', $row->added_by_userID);
+                    $query = $this->db->get('employee');
                     $res = $query->row();
                     $date_created = date('D M j, Y g:i a', strtotime($row->date_added));
                     
@@ -52,7 +52,7 @@ class Notifications extends CI_Controller
                         </li>
 
                         <li class="notification-item">
-                            <img class="box me-2" src="' . base_url('uploaded_file/profile/') . '' . $res->photo . '" alt="Pofile-Picture">
+                            <img class="box me-2" src="' . base_url('uploaded_file/profile/') . '' . $res->profile_pic . '" alt="Pofile-Picture">
                             <div>
                                 <h4>' . $added_by . '</h4>
                                 <p>' . $row->notif_message . '</p>
