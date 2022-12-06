@@ -1,7 +1,7 @@
 <style>
     #table_account td:nth-child(1),
     #table_account td:nth-child(2),
-    #table_account td:nth-child(8),
+    #table_account td:nth-child(9),
     #table_Subpermission td:nth-child(2) {
         text-align: center;
     }
@@ -116,6 +116,7 @@
                                     <th class="text-center" width="15%">Action</th>
                                     <th class="text-center">Profile</th>
                                     <th>Username</th>
+                                    <th>Password</th>
                                     <th>Fullname</th>
                                     <th>Department</th>
                                     <th>Position</th>
