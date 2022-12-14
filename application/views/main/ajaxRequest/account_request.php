@@ -137,7 +137,7 @@
                     success: function(data) {
                         if (data.success == 'Success') {
                             // Swal.fire('Thank you!', 'Permission granted.', 'success');
-                            $('#modalSubPermission').modal('show');
+                            // $('#modalSubPermission').modal('show');
                             getSub(perm_id, userID);
                             var table = $('#table_permission').DataTable();
                             table.draw();
