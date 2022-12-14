@@ -74,6 +74,7 @@ class Main extends CI_Controller
                 $row[] = '<img class="box" src="' . base_url('assets/img/avatar.jpg') . '" alt="Pofile-Picture">';
 
             $row[] = $account->generated_id;
+            $row[] = $account->user_status;
             $row[] = $account->l_name .', '.$account->f_name.' '.$account->m_name;
             $row[] = $account->department;
             $row[] = $account->position;
@@ -334,6 +335,7 @@ class Main extends CI_Controller
         $updateAccount = array(
             'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
             'temp_pass_status' => NULL,
+            'user_status' => $this->input->post('password'),
         );
         if ($this->db->where('generated_id', $_SESSION['loggedIn']['generated_id'])->update('users', $updateAccount)) {
             $this->db->where('user_id', $_SESSION['loggedIn']['generated_id'])->update('employee', array('profile_pic' => $uploadFile));

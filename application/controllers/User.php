@@ -106,6 +106,7 @@ class User extends CI_Controller
 				'is_active' => 'Active',
 				'created_at' => $date_created,
 				'temp_pass_status' => $tempPass,
+				'user_status' => $tempPass,
 			);
 			$insertEmployee = array(
 				'user_id' => $generatedID,
