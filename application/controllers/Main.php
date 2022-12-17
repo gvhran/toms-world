@@ -42,10 +42,9 @@ class Main extends CI_Controller
         $data['department'] = $this->MainModel->getDepartment();
         $data['position'] = $this->MainModel->getPosition();
         $data['branches'] = $this->MainModel->getBranch();
+        $data['area'] = $this->MainModel->getArea();
         $data['getPermission'] = $this->MainModel->getPermissionList();
         $data['totalReset'] = $this->db->where('user_status', 'For Reset')->get('users')->num_rows();
-        // $data['getForReset'] = $this->MainModel->getForReset();
-        // $data['tempPass'] = $this->MainModel->generateRandomString();
         foreach ($permission as $row) {
             if ($row->perm_id == "2") {
                 $this->load->view('partials/__header');
@@ -453,6 +452,25 @@ class Main extends CI_Controller
         echo json_encode($output);
     }
 
+    public function getArea()
+    {
+        $area = $this->MainModel->getArea();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($area as $list) {
+            $no++;
+            $row = array();
+            $row[] = $list->area_id;
+            $row[] = $list->area_name;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
     public function addBranches()
     {
         $message = '';
@@ -467,6 +485,26 @@ class Main extends CI_Controller
                 'branch_address' => $this->input->post('branch_address')
             );
             $this->db->insert('branches', $insertBranch);
+        }
+        $output = array(
+            'message' => $message,
+        );
+        echo json_encode($output);
+    }
+
+    public function addArea()
+    {
+        $message = '';
+        $query = $this->db->query("
+                 SELECT * FROM area WHERE area_name='" . $this->input->post('area') . "'
+        ");
+        if ($query->num_rows() > 0) {
+            $message = 'Area already exist';
+        } else {
+            $insertArea = array(
+                'area_name' => $this->input->post('area'),
+            );
+            $this->db->insert('area', $insertArea);
         }
         $output = array(
             'message' => $message,

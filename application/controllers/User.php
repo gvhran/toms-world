@@ -119,6 +119,7 @@ class User extends CI_Controller
 				'position' => $this->input->post('position'),
 				'department' => $this->input->post('department'),
 				'branch_store' => $this->input->post('branches'),
+				'area_name' => $this->input->post('area'),
 			);
 			$this->db->insert('users', $insert_account);
 			$this->db->insert('employee', $insertEmployee);

@@ -94,4 +94,10 @@ class MainModel extends CI_Model
         $query = $this->db->get('branches');
         return $query->result();
     }
+
+    function getArea()
+    {
+        $query = $this->db->get('area');
+        return $query->result();
+    }
 }
