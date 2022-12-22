@@ -102,6 +102,21 @@
             },
         });
 
+        $('#table_area').DataTable({
+            "serverSide": true,
+            "processing": true,
+            "searching": false,
+            "ordering": false,
+            "paginate": false,
+            "info": false,
+            "stateSave": true,
+            "bDestroy": true,
+            "ajax": {
+                "url": "<?= base_url('main/getArea') ?>",
+                "type": "POST"
+            },
+        });
+
         $(document).on('click', '.add_permission', function() {
             var accountID = $(this).attr('id');
             $('#modalPermission').modal('show');
@@ -137,7 +152,7 @@
                     success: function(data) {
                         if (data.success == 'Success') {
                             // Swal.fire('Thank you!', 'Permission granted.', 'success');
-                            $('#modalSubPermission').modal('show');
+                            // $('#modalSubPermission').modal('show');
                             getSub(perm_id, userID);
                             var table = $('#table_permission').DataTable();
                             table.draw();
@@ -563,6 +578,37 @@
                         );
                         $('#addBranches').trigger('reset');
                         var table = $('#table_branch').DataTable();
+                        table.draw();
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
+                }
+            });
+        });
+
+        $(document).on('submit', '#addArea', function(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            $.ajax({
+                url: "<?= base_url() . 'Main/addArea' ?>",
+                method: "POST",
+                data: new FormData(this),
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.message != '') {
+                        Swal.fire('Warning!', 'Area already exist.', 'warning');
+                    } else {
+                        Swal.fire(
+                            'Thank you!',
+                            'Successfully added!',
+                            'success'
+                        );
+                        $('#addArea').trigger('reset');
+                        var table = $('#table_area').DataTable();
                         table.draw();
                     }
                 },

@@ -63,18 +63,32 @@
             </nav>
         </div><!-- End Page Title -->
 
+
         <section class="main-section dashboard">
-            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalNewAccount"><i class="bi bi-person-plus-fill me-2"></i>Add New Account</button>
-            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalManagePermission"><i class="bi bi-lock-fill me-2"></i>Manage Permission</button>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDepartment"><i class="bi bi-hdd-rack-fill me-2"></i>Manage Department</button>
-            <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPosition"><i class="bi bi-person-lines-fill me-2"></i>Manage Position</button>
-            <button class="btn btn-warning btn-sm text-white" data-bs-toggle="modal" data-bs-target="#modalBranch"><i class="bi bi-shop me-2"></i>Manage Branch</button>
-            <button type="button" class="btn btn-info text-white position-relative btn-sm" data-bs-toggle="modal" data-bs-target="#modalReset">
-                <i class="bi bi-person-rolodex me-2"></i>Reset Account
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    <?= $totalReset; ?>
-                </span>
-            </button>
+
+            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"><i class="bi bi-menu-button-wide me-2"></i>Toggle Menu</button>
+            <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"><i class="bi bi-menu-button-wide me-2"></i>Control Management</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="d-grid gap-2 col-12 mx-auto">
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalNewAccount"><i class="bi bi-person-plus-fill me-2"></i>Add New Account</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalManagePermission"><i class="bi bi-lock-fill me-2"></i>Manage Permission</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalDepartment"><i class="bi bi-hdd-rack-fill me-2"></i>Manage Department</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalPosition"><i class="bi bi-person-lines-fill me-2"></i>Manage Position</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalBranch"><i class="bi bi-shop me-2"></i>Manage Branch</button>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalArea"><i class="bi bi-pin-map-fill me-2"></i>Manage Area</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalReset">
+                            <i class="bi bi-person-rolodex me-2"></i>Reset Account
+                            <span class="badge bg-danger ms-2">
+                                <?= $totalReset; ?>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <hr>
             <div class="card">
                 <div class="card-header">
@@ -261,13 +275,24 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="position">Branches</label>
                                 <select class="form-select" id="branches" name="branches" required>
                                     <option value="" selected>Select Branch</option>
                                     <?php foreach ($branches as $row) : ?>
                                         <option value="<?= $row->branch ?>"><?= $row->branch ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="position">Area</label>
+                                <select class="form-select" id="area" name="area" required>
+                                    <option value="" selected>Select Area</option>
+                                    <?php foreach ($area as $row) : ?>
+                                        <option value="<?= $row->area_name ?>"><?= $row->area_name ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -485,10 +510,10 @@
                 <form id="addBranches" method="POST">
                     <div class="row g-3">
                         <div class="col-sm-4">
-                            <input type="text" class="form-control form-control-sm" name="branch" placeholder="Branch / Store" required autocomplete="off">
+                            <input type="text" class="form-control form-control-sm" name="branch" placeholder="Branch Code" required autocomplete="off">
                         </div>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" name="branch_address" placeholder="Please input address" required autocomplete="off">
+                            <input type="text" class="form-control form-control-sm" name="branch_address" placeholder="Store/Branch Name" required autocomplete="off">
                         </div>
                         <div class="col-sm">
                             <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-plus-square-fill me-2"></i>Add Branch</button>
@@ -499,8 +524,45 @@
                 <table class="table" id="table_branch" width="100%">
                     <thead>
                         <tr>
-                            <th>Branch</th>
-                            <th>Address</th>
+                            <th>Branch Code</th>
+                            <th>Store/Branch Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Area -->
+<div class="modal fade" id="modalArea" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5><i class="bi bi-shop me-2"></i>Manage Area</h5>
+                <hr class="mt-0">
+                <form id="addArea" method="POST">
+                    <div class="row g-3">
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-control-sm" name="area" placeholder="Area" required autocomplete="off">
+                        </div>
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-plus-square-fill me-2"></i>Add Area</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <table class="table" id="table_area" width="100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Area</th>
                         </tr>
                     </thead>
                     <tbody>
