@@ -150,7 +150,7 @@
                                             <?php if ($row->perm_id == "3") { ?>
                                                 <!-- DCM Card -->
                                                 <div class="col-xxl-4 col-md-6">
-                                                    <a href="#" style="color: #444444;">
+                                                    <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                         <div class="card info-card menu-card border">
 
                                                             <div class="card-body">
@@ -175,7 +175,7 @@
 
                                         <!-- Inventory Card -->
                                         <div class="col-xxl-4 col-md-6">
-                                            <a href="#" style="color: #444444;">
+                                            <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
 
                                                     <div class="card-body">
@@ -197,7 +197,7 @@
 
                                         <!-- Inventory Card -->
                                         <div class="col-xxl-4 col-md-6">
-                                            <a href="#" style="color: #444444;">
+                                            <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
 
                                                     <div class="card-body">
@@ -218,7 +218,7 @@
 
                                         <!-- System A -->
                                         <div class="col-xxl-4 col-md-6">
-                                            <a href="#" style="color: #444444;">
+                                            <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
 
                                                     <div class="card-body">
@@ -239,7 +239,7 @@
 
                                         <!-- System A -->
                                         <div class="col-xxl-4 col-md-6">
-                                            <a href="#" style="color: #444444;">
+                                            <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
 
                                                     <div class="card-body">
@@ -282,7 +282,7 @@
 
                                         <!-- System A -->
                                         <div class="col-xxl-4 col-md-6">
-                                            <a href="#" style="color: #444444;">
+                                            <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
 
                                                     <div class="card-body">

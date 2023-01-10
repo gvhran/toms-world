@@ -30,6 +30,12 @@ class User extends CI_Controller
 		$this->load->view('user/footer');
 	}
 
+	public function maintenance()
+    {
+        $this->load->view('underconstruction');
+    }
+
+
 
 	//Back End Process
 
