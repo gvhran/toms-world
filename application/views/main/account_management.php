@@ -301,7 +301,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
-                <button type="submit" class="btn btn-danger text-white"><i class="bi bi-save me-2"></i>Save Account</button>
+                <button type="submit" class="btn btn-danger text-white" id="save_account"><i class="bi bi-save me-2"></i>Save Account</button>
             </div>
             </form>
         </div>

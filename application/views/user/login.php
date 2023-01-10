@@ -1,4 +1,5 @@
 <main>
+    
     <div class="container">
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
@@ -31,7 +32,7 @@
                                                 <label for="yourUsername" class="form-label">Username</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-fill"></i></span>
-                                                    <input type="text" name="email" class="form-control" id="yourUsername" required>
+                                                    <input type="email" name="email" class="form-control" id="yourUsername" required>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -76,7 +77,7 @@
                     <label for="yourPassword" class="form-label">Username</label>
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-rolodex"></i></span>
-                        <input type="text" name="username" class="form-control" id="resetUsername" placeholder="Enter your username">
+                        <input type="email" name="username" class="form-control" id="resetUsername" placeholder="Enter your username">
                     </div>
                 </div>
             </div>

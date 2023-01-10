@@ -25,27 +25,27 @@ class UserModel extends CI_Model
         $this->load->database();
     }
 
-    function existing_account($generatedID)
+    function existing_account($email)
     {
-        $query = $this->db->where('generated_id', $generatedID)->get('users');
+        $query = $this->db->where('username', $email)->get('users');
         return $query->num_rows();
     }
 
     function userCheck($username)
     {
-        $query = $this->db->where('generated_id', $username)->get('users');
+        $query = $this->db->where('username', $username)->get('users');
         return $query->num_rows();
     }
 
     function getEmployee($username)
     {
-        $query = $this->db->where('user_id', $username)->get('employee');
+        $query = $this->db->where('email', $username)->get('employee');
         return $query->row();
     }
 
     public function user_check_admin($username, $password)
     {
-        $this->db->where('generated_id', $username);
+        $this->db->where('username', $username);
         $res = $this->db->get('users')->row();
 
         // if(!$res){
@@ -141,6 +141,13 @@ class UserModel extends CI_Model
     {
         $this->db->where('id', $_SESSION['loggedIn']['id']);
         $query = $this->db->get('users');
+        return $query->row();
+    }
+
+    function getEmailAutoreply()
+    {
+        $this->db->where('email_id', '1');
+        $query = $this->db->get('autoreply_credentials');
         return $query->row();
     }
 }

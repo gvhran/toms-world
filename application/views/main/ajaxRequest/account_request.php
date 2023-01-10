@@ -242,9 +242,16 @@
                 dataType: 'json',
                 contentType: false,
                 processData: false,
+                beforeSend: function() {
+                    $('#loading').show();
+                    $('#save_account').text('Please Wait...');
+                    $('#save_account').attr('disabled', true);
+                },
                 success: function(data) {
                     if (data.message != '') {
                         Swal.fire('Warning!', 'Account already exist.', 'warning');
+                    } else if (data.error == 'NotSent') {
+                        Swal.fire('Error!', 'Email not sent.', 'error');
                     } else {
                         Swal.fire(
                             'Thank you!',
@@ -256,7 +263,15 @@
                         table.draw();
                     }
                 },
+                complete: function() {
+                    $('#loading').hide();
+                    $('#save_account').text('Save Account');
+                    $('#save_account').attr('disabled', false);
+                },
                 error: function() {
+                    $('#loading').hide();
+                    $('#save_account').text('Save Account');
+                    $('#save_account').attr('disabled', false);
                     Swal.fire('Error!', 'Something went wrong. Please try again later!', 'error');
                 }
             });

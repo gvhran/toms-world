@@ -56,7 +56,7 @@ class User extends CI_Controller
 						'status' => $session->is_active,
 						'photo' => $session->photo,
 						'temp_pass' => $session->temp_pass_status,
-						'name' => $account->f_name .' '.$account->l_name,
+						'name' => $account->f_name . ' ' . $account->l_name,
 						'department' => $account->department,
 						'position' => $account->position,
 						'email' => $account->email,
@@ -91,17 +91,34 @@ class User extends CI_Controller
 			return $randomString;
 		}
 
+		$emailCredentials = $this->UserModel->getEmailAutoreply();
+		$config = array(
+			'protocol' => $emailCredentials->protocol,
+			'smtp_host' => $emailCredentials->smtp_host,
+			'smtp_port' => $emailCredentials->smtp_port,
+			'smtp_user' => $emailCredentials->smtp_user, // change it to yours
+			'smtp_pass' => $emailCredentials->smtp_pass, // change it to yours
+			'mailtype' => $emailCredentials->mailtype,
+			'charset' => $emailCredentials->charset,
+			'wordwrap' => $emailCredentials->wordwrap
+		);
+		$this->load->library('email', $config);
+
 		$message = '';
+		$body = '';
+		$error = '';
 		$generatedID = 'TWPH-' . date('Y') . '-' . rand(10, 1000);
+		$email = $this->input->post('email_add');
 		$tempPass = generateRandomString();
-		$exist = $this->UserModel->existing_account($generatedID);
+		$exist = $this->UserModel->existing_account($email);
 		if ($exist > 0) {
 			$message = 'Account exist';
 		} else {
 			$date_created = date('Y-m-d H:i:s');
-			
+
 			$insert_account = array(
 				'generated_id' => $generatedID,
+				'username' => $email,
 				'password' => password_hash($tempPass, PASSWORD_DEFAULT),
 				'is_active' => 'Active',
 				'created_at' => $date_created,
@@ -121,12 +138,36 @@ class User extends CI_Controller
 				'branch_store' => $this->input->post('branches'),
 				'area_name' => $this->input->post('area'),
 			);
-			$this->db->insert('users', $insert_account);
-			$this->db->insert('employee', $insertEmployee);
+			$body = '
+				Dear '.$this->input->post('fname').',<br><br>
+				Greetings!<br><br>
+
+				<b>ACCOUNT CREDENTIALS:</b><br>
+				<b>Username:</b> '.$email.'<br>
+				<b>Password:</b> '.$tempPass.'<br><br><br>
+
+				<hr>
+				<br><br>
+				Thank You.<br>
+				<b>Toms World Philippines</b><br><br>
+				*** This is a system generated message. <b>DO NOT REPLY TO THIS EMAIL. ***</b>
+			';
+			$this->email->set_newline("\r\n");
+			$this->email->from($emailCredentials->smtp_user);
+			$this->email->to($email);
+			$this->email->subject('ACCOUNT CREDENTIALS');
+			$this->email->message($body);
+			if($this->email->send()) {
+				$this->db->insert('users', $insert_account);
+				$this->db->insert('employee', $insertEmployee);
+			}else{
+				$error = 'NotSent';
+			}
 		} //end of if else
 
 		$output = array(
 			'message' => $message,
+			'error' => $error,
 		);
 
 		echo json_encode($output);
@@ -136,9 +177,9 @@ class User extends CI_Controller
 	{
 		$message = '';
 		$user = $this->input->post('user');
-		$checkUser = $this->db->where('generated_id', $user)->get('users')->num_rows();
+		$checkUser = $this->db->where('username', $user)->get('users')->num_rows();
 		if ($checkUser > 0) {
-			$this->db->where('generated_id', $user)->update('users', array('user_status' => 'For Reset'));
+			$this->db->where('username', $user)->update('users', array('user_status' => 'For Reset'));
 		} else {
 			$message = 'Not Found';
 		}
@@ -146,6 +187,5 @@ class User extends CI_Controller
 			'message' => $message,
 		);
 		echo json_encode($output);
-
 	}
 }

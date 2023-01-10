@@ -72,7 +72,7 @@ class Main extends CI_Controller
             else
                 $row[] = '<img class="box" src="' . base_url('assets/img/avatar.jpg') . '" alt="Pofile-Picture">';
 
-            $row[] = $account->generated_id;
+            $row[] = $account->username;
             $row[] = $account->user_status;
             $row[] = $account->l_name .', '.$account->f_name.' '.$account->m_name;
             $row[] = $account->department;

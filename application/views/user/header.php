@@ -151,7 +151,34 @@
       height: 150px;
       width: 150px;
     }
+
+    #loading {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: block;
+      /* opacity: 0.7; */
+      background-color: rgba(255, 255, 255, 0.9);
+      z-index: 150;
+    }
+
+    #loading-image {
+      position: absolute;
+      margin-right: -50px;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 200px;
+
+    }
   </style>
 </head>
 
 <body class="login-module">
+  <div id="loading" class="mx-auto" style="display:none;">
+    <img id="loading-image" src="<?= base_url('assets/img/loader.gif')?>" alt="Loading..." />
+  </div>
