@@ -39,27 +39,44 @@ class Notifications extends CI_Controller
                     $query = $this->db->get('employee');
                     $res = $query->row();
                     $date_created = date('D M j, Y g:i a', strtotime($row->date_added));
-                    
+
                     if ($userID == $row->added_by_userID) {
                         $added_by = 'You are';
                     } else {
                         $added_by = $row->added_by;
                     }
 
-                    $output .= '
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+                    if ($res->profile_pic != '') {
+                        $output .= '
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
 
-                        <li class="notification-item">
-                            <img class="box me-2" src="' . base_url('uploaded_file/profile/') . '' . $res->profile_pic . '" alt="Pofile-Picture">
-                            <div>
-                                <h4>' . $added_by . '</h4>
-                                <p>' . $row->notif_message . '</p>
-                                <p>' . $date_created . '</p>
-                            </div>
-                        </li>
-                    ';
+                            <li class="notification-item">
+                                <img class="box me-2" src="' . base_url('uploaded_file/profile/') . '' . $res->profile_pic . '" alt="Pofile-Picture">
+                                <div>
+                                    <h4>' . $added_by . '</h4>
+                                    <p>' . $row->notif_message . '</p>
+                                    <p>' . $date_created . '</p>
+                                </div>
+                            </li>
+                        ';
+                    } else {
+                        $output .= '
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li class="notification-item">
+                                <img class="box me-2" src="' . base_url('assets/img/avatar.jpg') . '" alt="Pofile-Picture">
+                                <div>
+                                    <h4>' . $added_by . '</h4>
+                                    <p>' . $row->notif_message . '</p>
+                                    <p>' . $date_created . '</p>
+                                </div>
+                            </li>
+                        ';
+                    }
                 }
             } else {
                 $output .= '<li class="dropdown-header">

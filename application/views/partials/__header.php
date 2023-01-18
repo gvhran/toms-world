@@ -141,7 +141,7 @@
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <?php if ($_SESSION['loggedIn']['profile_pic'] != '') : ?>
-                            <img src="<?= base_url() ?>../toms-world/uploaded_file/profile/<?= $_SESSION['loggedIn']['profile_pic']; ?>" class="rounded-circle" alt="Pofile-Picture"><br>
+                            <img src="<?= base_url() ?>uploaded_file/profile/<?= $_SESSION['loggedIn']['profile_pic']; ?>" class="rounded-circle" alt="Pofile-Picture"><br>
                         <?php else : ?>
                             <img src="<?= base_url() ?>assets/img/avatar.jpg" alt="Profile" class="rounded-circle"><br>
                         <?php endif ?>
