@@ -29,7 +29,7 @@
                                         <hr>
                                         <form id="login_form" method="POST">
                                             <div class="form-group mb-3">
-                                                <label for="yourUsername" class="form-label">Username</label>
+                                                <label for="yourUsername" class="form-label">Email Address</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text" id="inputGroupPrepend"><i class="bi bi-person-fill"></i></span>
                                                     <input type="email" name="email" class="form-control" id="yourUsername" required>
@@ -42,17 +42,18 @@
                                                     <input type="password" name="password" class="form-control" id="yourPassword" required>
                                                 </div>
                                             </div>
+                                           <br>
+                                            <button class="btn btn-login w-100 btn-rounded" type="submit">LOGIN</button>
                                             <div class="text-end mt-2 mb-2">
                                                 <a href="#modalForgotPass" data-bs-toggle="modal">Forgot Password?</a>
                                             </div>
-                                            <button class="btn btn-login w-100 btn-rounded" type="submit">LOGIN</button>
                                         </form>
                                         <hr>
-                                        <h5 style="color:#e65c00; font-size: 19px;">Welcome to Toms World PH
-                                            Centralized System.
-                                        </h5>
-                                        <h6 style="color:#02306D;">Having trouble to Acces you Account?<br> For
-                                            assitance please watch this Video Guide. <a href="#">CLICK HERE</a></h6>
+                                       
+                                        <h6 style="color:#02306D;">Having trouble to Acces you Account?<br> 
+                                        For technical concern, please contact your respective IT Officers.<br><br>
+                                        To download User Manual Guide. <br>
+                                        <a href="#">CLICK HERE</a></h6>
                                         <hr>
                                     </div><!-- End of card-body -->
                                 </div><!-- End of card -->
