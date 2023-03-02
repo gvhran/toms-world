@@ -173,7 +173,7 @@
 
                                         <?php endforeach; ?>
 
-                                        <!-- Inventory Card -->
+                                        <!-- 
                                         <div class="col-xxl-4 col-md-6">
                                             <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
@@ -193,9 +193,9 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div><!-- End Inventory Card -->
+                                        </div> 
 
-                                        <!-- Inventory Card -->
+                                        
                                         <div class="col-xxl-4 col-md-6">
                                             <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
@@ -214,9 +214,9 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div><!-- End Inventory Card -->
+                                        </div> End Inventory Card -->
 
-                                        <!-- System A -->
+                                        <!-- 
                                         <div class="col-xxl-4 col-md-6">
                                             <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
@@ -235,9 +235,9 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div><!-- System A-->
+                                        </div> System A-->
 
-                                        <!-- System A -->
+                                        <!-- 
                                         <div class="col-xxl-4 col-md-6">
                                             <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
@@ -256,9 +256,9 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div><!-- System A-->
+                                        </div>System A-->
 
-                                        <!-- System A -->
+                                        <!-- 
                                         <div class="col-xxl-4 col-md-6">
                                             <a href="https://tomsworld.com/" target="_blank" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
@@ -278,9 +278,9 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div><!-- System A-->
+                                        </div>System A-->
 
-                                        <!-- System A -->
+                                        <!-- 
                                         <div class="col-xxl-4 col-md-6">
                                             <a href="<?= base_url('user/maintenance') ?>" style="color: #444444;">
                                                 <div class="card info-card menu-card border">
@@ -298,7 +298,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </div><!-- System A-->
+                                        </div>System A-->
                                     </div>
                                 </div>
 
@@ -319,22 +319,12 @@
                         <div class="card-body pb-0">
 
                             <hr>
-                            <h6><b> Memo No. 1234</b></h6>
+                            <h6><b>This features is Not yet Available</b></h6>
                             <p>To: Department<br>
-                                Re: Workshop Seminar<br>
+                                Subject: Ticketing System<br>
                                 View More...</p>
-                            <hr>
-
-                            <h6><b> Memo No. 1234</b></h6>
-                            <p>To: Department<br>
-                                Re: Workshop Seminar<br>
-                                View More...</p>
-                            <hr>
-
-                            <h6><b> Memo No. 1234</b></h6>
-                            <p>To: Department<br>
-                                Re: Workshop Seminar<br>
-                                View More...</p>
+                            
+                            
                         </div>
                     </div><!-- End MEMO BOARD  -->
 

@@ -32,8 +32,10 @@
 
 <body>
     <div id="constructions">
-        <h1>oopps!</h1>
-        <h2>This page is under construction - coordinate with IT Team</h2>
+        <h1>Error 404!</h1>
+        <h2>This Page is under development</h2>
+        <h3>Coordinate with ITSD Development Team</h2>
+        <h5>Vhran.Guanio@tomsworld.com.ph / 0918-921-7348</h5>
     </div>
 </body>
 
