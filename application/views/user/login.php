@@ -20,11 +20,11 @@
                                 <div class="card mb-3 bg-s">
                                     <div class="card-body">
                                         <div class="pt-4 pb-2">
-                                            <h5 class="card-title text-center">Toms World PH Centralized System</h5>
+                                            <h5 class="card-title text-center">Welcome to Toms World Philippines</h5>
                                         </div>
                                         <div class="pt-2">
-                                            <h5 class="text-center title-system">Welcome!
-                                                Sign In your Account</h5>
+                                            <h5 class="text-center title-system">
+                                                Sign In Your Account</h5>
                                         </div>
                                         <hr>
                                         <form id="login_form" method="POST">
@@ -55,6 +55,9 @@
                                         To download User Manual Guide. <br>
                                         <a href="#">CLICK HERE</a></h6>
                                         <hr>
+                                        Powered by: <br>
+                                        IT Department - 
+                                        <a href="mailto:Vhran.Guanio@tomsworld.com.ph">Vhran.Guanio@tomsworld.com.ph</a>
                                     </div><!-- End of card-body -->
                                 </div><!-- End of card -->
                             </div>
