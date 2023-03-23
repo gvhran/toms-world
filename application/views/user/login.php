@@ -53,7 +53,7 @@
                                         <h6 style="color:#02306D;">Having trouble to Acces you Account?<br> 
                                         For technical concern, please contact your respective IT Officers.<br><br>
                                         To download User Manual Guide. <br>
-                                        <a href="#">CLICK HERE</a></h6>
+                                        <a href="assets/img/Ticketing System User Manual.pdf">CLICK HERE</a></h6>
                                         <hr>
                                         Powered by: <br>
                                         IT Department - 
