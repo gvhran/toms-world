@@ -50,14 +50,14 @@
                                         </form>
                                         <hr>
                                        
-                                        <h6 style="color:#02306D;">Having trouble to Acces you Account?<br> 
-                                        For technical concern, please contact your respective IT Officers.<br><br>
+                                        <h6 style="color:#02306D;">Having trouble to Access your Account or do you have technical concerns?<br> 
+                                        Please contact your respective IT Officers.<br><br>
                                         To download User Manual Guide. <br>
                                         <a href="assets/img/Ticketing System User Manual.pdf">CLICK HERE</a></h6>
                                         <hr>
                                         Powered by: <br>
-                                        IT Department - 
-                                        <a href="mailto:Vhran.Guanio@tomsworld.com.ph">Vhran.Guanio@tomsworld.com.ph</a>
+                                        ITSD Software Development Group - 
+                                        <!--<a href="mailto:Vhran.Guanio@tomsworld.com.ph">Vhran.Guanio@tomsworld.com.ph</a>-->
                                     </div><!-- End of card-body -->
                                 </div><!-- End of card -->
                             </div>
