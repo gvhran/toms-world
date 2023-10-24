@@ -47,14 +47,13 @@
                                             <div class="text-end mt-2 mb-2">
                                                 <a href="#modalForgotPass" data-bs-toggle="modal">Forgot Password?</a>
                                             </div>
+                                            To download User Manual Guide. <br>
+                                        <a href="assets/img/Ticketing System User Manual.pdf">CLICK HERE</a></h6>
                                         </form>
                                         <hr>
                                        
-                                        <h6 style="color:#02306D;">Having trouble to Access your Account or do you have technical concerns?<br> 
-                                        Please contact your respective IT Officers.<br><br>
-                                        To download User Manual Guide. <br>
-                                        <a href="assets/img/Ticketing System User Manual.pdf">CLICK HERE</a></h6>
-                                        <hr>
+                                        <h6 style="color:#02306D;">Having trouble to Access your Account or Do you have any technical concerns?<br> 
+                                        Please contact your respective IT Officers.<br>                                                                               <hr>
                                         Powered by: <br>
                                         ITSD Software Development Group - 
                                         <!--<a href="mailto:Vhran.Guanio@tomsworld.com.ph">Vhran.Guanio@tomsworld.com.ph</a>-->
